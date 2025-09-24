@@ -10,7 +10,7 @@ import java.util.UUID;
 @Table(name = "events")
 public class Evento {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private UUID id;
     @Column(name = "titolo", nullable = false, length = 10)
     private String titolo;
@@ -23,22 +23,25 @@ public class Evento {
     private EventType type;
     @Column(name = "numero massimo", nullable = false, length = 3)
     private int numeroMax;
+    @ManyToOne
+    @JoinColumn(name = "location_id", nullable = false)
+    private Location location;
 
     public Evento() {
     }
 
-    public Evento(String titolo, LocalDate dataEvento, String descrizione, EventType type, int numeroMax) {
+    public Evento(String titolo, LocalDate dataEvento, String descrizione, EventType type, int numeroMax, Location location) {
         this.titolo = titolo;
         this.dataEvento = dataEvento;
         this.descrizione = descrizione;
         this.type = type;
         this.numeroMax = numeroMax;
+        this.location = location;
     }
 
-    public Evento(String titolo, int anno, int mese, int giorno, String descrizione, EventType type, int numeroMax) {
-        this(titolo, LocalDate.of(anno, mese, giorno), descrizione, type, numeroMax);
+    public Evento(String titolo, int anno, int mese, int giorno, String descrizione, EventType type, int numeroMax, Location location) {
+        this(titolo, LocalDate.of(anno, mese, giorno), descrizione, type, numeroMax, location);
     }
-
 
     public UUID getId() {
         return id;
@@ -50,6 +53,14 @@ public class Evento {
 
     public void setTitolo(String titolo) {
         this.titolo = titolo;
+    }
+
+    public LocalDate getDataEvento() {
+        return dataEvento;
+    }
+
+    public void setDataEvento(LocalDate dataEvento) {
+        this.dataEvento = dataEvento;
     }
 
     public String getDescrizione() {
@@ -68,20 +79,20 @@ public class Evento {
         this.type = type;
     }
 
-    public LocalDate getDataEvento() {
-        return dataEvento;
-    }
-
-    public void setDataEvento(LocalDate dataEvento) {
-        this.dataEvento = dataEvento;
-    }
-
     public int getNumeroMax() {
         return numeroMax;
     }
 
     public void setNumeroMax(int numeroMax) {
         this.numeroMax = numeroMax;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     @Override
@@ -92,6 +103,8 @@ public class Evento {
                 ", dataEvento=" + dataEvento +
                 ", descrizione='" + descrizione + '\'' +
                 ", type=" + type +
+                ", numeroMax=" + numeroMax +
+                ", location=" + (location != null ? location.getNomeLocation() : "null") +
                 '}';
     }
 }

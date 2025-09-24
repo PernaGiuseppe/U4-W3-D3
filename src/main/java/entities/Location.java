@@ -16,6 +16,14 @@ public class Location {
     @Column(name = "Città", nullable = false, length = 10)
     private String citta;
 
+    public Location() {
+    }
+
+    public Location(String nomeLocation, String citta) {
+        this.nomeLocation = nomeLocation;
+        this.citta = citta;
+    }
+
     public UUID getLocationId() {
         return locationId;
     }
@@ -34,5 +42,14 @@ public class Location {
 
     public void setCitta(String citta) {
         this.citta = citta;
+    }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "locationId=" + locationId +
+                ", nomeLocation='" + nomeLocation + '\'' +
+                ", citta='" + citta + '\'' +
+                '}';
     }
 }
